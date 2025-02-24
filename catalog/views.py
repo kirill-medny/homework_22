@@ -1,6 +1,5 @@
-from django.shortcuts import redirect, render
-
-from .forms import ContactForm
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 def home(request):
@@ -8,4 +7,8 @@ def home(request):
 
 
 def contacts(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        massage = request.POST.get("massage")
+        return HttpResponse(f"Спасибо, {name}! Сообщение получено.")
     return render(request, "contacts.html")
