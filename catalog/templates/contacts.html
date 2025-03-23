@@ -20,6 +20,20 @@
     <h1 class="display-4">Контакты</h1>
 </div>
 
+<div class="col-lg-9 col-md-6 col-sm-12">
+    <div class="card mb-4 box-shadow">
+        <div class="card-body">
+            <h1>Контакты:</h1>
+            {% for contact in contacts %}
+                <p>Имя: {{ contact.name }}</p>
+                <p>Email: {{ contact.email }}</p>
+                <p>Сообщение: {{ contact.message }}</p>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row text-start">
         <div class="col-lg-9 col-md-6 col-sm-12">

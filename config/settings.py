@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "catalog",
+    "homerwork23",
 ]
 
 MIDDLEWARE = [
@@ -56,9 +57,9 @@ DATABASES = {
     "default": {
         # "NAME": BASE_DIR / "db.sqlite3",
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
+        'NAME': 'homerwork23',
+        'USER': 'postgres',
+        'PASSWORD': 'Xfqpfgflf9432.',
         'HOST': 'localhost',
         'PORT': '5432'
 
