@@ -4,13 +4,13 @@ class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание', blank=True, null=True)  # Разрешаем пустое описание
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['name']  # Сортировка по умолчанию
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -22,13 +22,13 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name'] # Сортировка по умолчанию
+
+    def __str__(self):
+        return self.name
 
 
 class Contact(models.Model):
@@ -36,9 +36,11 @@ class Contact(models.Model):
     email = models.EmailField(verbose_name='Email')
     message = models.TextField(verbose_name='Сообщение')
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = 'Контакт'
         verbose_name_plural = 'Контакты'
+
+    def __str__(self):
+        return self.name
+
+
