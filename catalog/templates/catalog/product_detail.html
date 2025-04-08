@@ -1,0 +1,12 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <img src="{{ product.image | media_filter }}" alt="{{ product.name }}" width="300">
+    <p>Цена: {{ product.purchase_price }}</p>
+    <p>Категория: {{ product.category.name }}</p>
+    <p>Дата создания: {{ product.created_at }}</p>
+    <p>Дата обновления: {{ product.updated_at }}</p>
+{% endblock %}
