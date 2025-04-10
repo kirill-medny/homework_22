@@ -23,6 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("catalog.urls", namespace="catalog")),
     path("", include("homerwork23.urls", namespace="homerwork23")),
+    path("blog/", include("blog.urls", namespace="blog")),
 ]
 
 if settings.DEBUG:

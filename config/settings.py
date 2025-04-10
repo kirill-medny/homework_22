@@ -3,6 +3,7 @@ from pathlib import Path
 from  dotenv import load_dotenv
 from django.conf.global_settings import STATICFILES_DIRS
 
+
 load_dotenv(override=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "catalog",
     "homerwork23",
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -102,3 +104,10 @@ STATIC_URL = "static/"
 
 STATICFILES_DIRS = (BASE_DIR / "static",)
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'ba964pfunheq.mailtrap.ru'
+EMAIL_PORT = 2525  # Вы можете использовать любой из предложенных портов (25, 2525, 465 или 587)
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Ваш логин
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Ваш пароль

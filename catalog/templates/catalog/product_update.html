@@ -6,37 +6,40 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h1 class="card-title">Добавить новый товар</h1>
+                        <h1 class="card-title">Редактировать товар</h1>
                     </div>
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="name" class="form-label">Название</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Введите название товара" required>
+                                <input type="text" name="name" class="form-control" id="name" value="{{ product.name }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Описание</label>
-                                <textarea name="description" class="form-control" id="description" placeholder="Введите описание товара" rows="3" required></textarea>
+                                <textarea name="description" class="form-control" id="description" rows="3" required>{{ product.description }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Изображение</label>
                                 <input type="file" name="image" class="form-control" id="image">
+                                {% if product.image %}
+                                    <img src="" alt="{{ product.name }}" width="100" class="mt-2">
+                                {% endif %}
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Категория</label>
                                 <select name="category" class="form-control" id="category" required>
                                     {% for category in categories %}
-                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                        <option value="{{ category.id }}" {% if category == product.category %}selected{% endif %}>{{ category.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Цена</label>
-                                <input type="number" name="price" class="form-control" id="price" placeholder="Введите цену товара" required>
+                                <input type="number" name="price" class="form-control" id="price" value="{{ product.price }}" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Создать</button>
-                            <a href="{% url 'catalog:home' %}" class="btn btn-secondary">Отмена</a>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-secondary">Отмена</a>
                         </form>
                     </div>
                 </div>
