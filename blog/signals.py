@@ -9,7 +9,7 @@ def check_views_count(sender, instance, **kwargs):
         send_mail(
             'Поздравление!',
             f'Статья "{instance.title}" достигла 100 просмотров!',
-            'your_email@example.com',
-            ['your_email@example.com'],
+            'medny.kirill@yandex.ru',
+            ['medny.kirill@yandex.ru'],
             fail_silently=False,
         )
