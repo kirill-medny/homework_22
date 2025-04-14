@@ -1,6 +1,7 @@
 from django import forms
 from .models import Product, Contact
 from django.core.validators import ValidationError
+from .constants import FORBIDDEN_WORDS
 
 import mimetypes
 
@@ -14,21 +15,18 @@ class ProductForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
-    def clean_name(self):
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        name = self.cleaned_data['name'].strip().lower()
-        for word in forbidden_words:
-            if word in name:
-                raise ValidationError(f"Слово '{word}' не допустимо в названии продукта.")
-        return self.cleaned_data['name']
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name', '').lower()
+        description = cleaned_data.get('description', '').lower()
 
-    def clean_description(self):
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        description = self.cleaned_data['description'].strip().lower()
-        for word in forbidden_words:
+        for word in FORBIDDEN_WORDS:
+            if word in name:
+                self.add_error('name', f"Слово '{word}' не допустимо в названии продукта.")
             if word in description:
-                raise ValidationError(f"Слово '{word}' не допустимо в описании продукта.")
-        return self.cleaned_data['description']
+                self.add_error('description', f"Слово '{word}' не допустимо в описании продукта.")
+
+        return cleaned_data
 
     def clean_purchase_price(self):
         purchase_price = self.cleaned_data['purchase_price']
