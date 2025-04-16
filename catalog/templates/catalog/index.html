@@ -16,9 +16,11 @@
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                         <div class="d-flex justify-content-between align-items-center">
+                            {% if user.is_authenticated %}
                             <div class="btn-group">
                                 <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                             </div>
+                            {% endif %}
                             <small class="text-muted">Цена: {{ product.purchase_price }}</small>
                         </div>
                     </div>
@@ -26,8 +28,9 @@
             </div>
         {% endfor %}
     </div>
-
+    {% if user.is_authenticated %}
     <div class="text-center mt-4">
         <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
     </div>
+    {% endif %}
 {% endblock %}
