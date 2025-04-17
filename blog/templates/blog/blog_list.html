@@ -4,7 +4,9 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Блог</h1>
+            {% if request.user|has_group:"Контент-менеджер" %}
             <a href="{% url 'blog:blog_create' %}" class="btn btn-primary">Создать новую статью</a>
+            {% endif %}
         </div>
 
         <div class="row">
@@ -16,9 +18,11 @@
                             <h5 class="card-title">{{ post.title }}</h5>
                             <p class="card-text">{{ post.content|truncatechars:100 }}</p>
                             <div class="d-flex justify-content-between align-items-center">
+                                {% if request.user|has_group:"Контент-менеджер" %}
                                 <div class="btn-group">
                                     <a href="{% url 'blog:blog_detail' post.pk %}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                                 </div>
+                                {% endif %}
                                 <small class="text-muted">Просмотров: {{ post.views_count }}</small>
                             </div>
                         </div>

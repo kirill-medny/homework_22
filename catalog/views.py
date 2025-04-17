@@ -5,7 +5,8 @@ from .forms import ProductForm, ContactForm
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.core.mail import send_mail
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 
 
 class HomeView(ListView):
@@ -30,16 +31,28 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.has_perm('catalog.can_unpublish_product')
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:home')
+
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.has_perm('catalog.delete_product')
 
 class ContactsView(TemplateView):
     template_name = 'catalog/contacts.html'

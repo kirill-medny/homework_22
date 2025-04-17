@@ -9,11 +9,14 @@
     <p>Категория: {{ product.category.name }}</p>
     <p>Дата создания: {{ product.created_at }}</p>
     <p>Дата обновления: {{ product.updated_at }}</p>
-
-    {% if user.is_authenticated %}
+    <p>Опубликован: {{ product.is_published }}</p>
     <div class="mt-4">
-        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать</a>
-        <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+        {% if user == product.owner or user.has_perm('catalog.can_unpublish_product') %}
+            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать</a>
+        {% endif %}
+        {% if user == product.owner or user.has_perm('catalog.delete_product') %}
+            <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
     </div>
-    {% endif %}
+
 {% endblock %}

@@ -2,6 +2,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from .models import BlogPost
 from .forms import BlogPostForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 
 class BlogPostListView(ListView):
     model = BlogPost
@@ -23,13 +25,16 @@ class BlogPostDetailView(DetailView):
         obj.save()
         return obj
 
-class BlogPostCreateView(CreateView):
+class BlogPostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = 'blog/blog_form.html'
     success_url = reverse_lazy('blog:blog_list')
 
-class BlogPostUpdateView(UpdateView):
+    def test_func(self):
+        return self.request.user.groups.filter(name='Контент-менеджер').exists()
+
+class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = 'blog/blog_form.html'
@@ -38,7 +43,13 @@ class BlogPostUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('blog:blog_detail', kwargs={'pk': self.object.pk})
 
-class BlogPostDeleteView(DeleteView):
+    def test_func(self):
+        return self.request.user.groups.filter(name='Контент-менеджер').exists()
+
+class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BlogPost
     template_name = 'blog/blog_confirm_delete.html'
     success_url = reverse_lazy('blog:blog_list')
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Контент-менеджер').exists()
