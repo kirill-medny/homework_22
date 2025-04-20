@@ -2,6 +2,10 @@
     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
     <a class="p-2 btn btn-outline-primary" href="{% url 'blog:blog_list' %}">Блог</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Список продуктов</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_by_category' '6' %}">Одежда</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_by_category' '5' %}">Электроника</a>
+
     {% if user.is_authenticated %}
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:edit_profile' %}">Профиль</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выход</a>

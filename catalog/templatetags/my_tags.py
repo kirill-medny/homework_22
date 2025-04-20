@@ -3,13 +3,15 @@ from django.contrib.auth.models import Group
 
 register = template.Library()
 
+
 @register.filter()
 def media_filter(path):
     if path:
         return f"/media/{path}"
     return "#"
 
-@register.filter(name='has_group')
+
+@register.filter(name="has_group")
 def has_group(user, group_name):
     """
     Проверяет, является ли пользователь членом указанной группы.
@@ -20,7 +22,8 @@ def has_group(user, group_name):
         return False  # Группа не существует
     return group in user.groups.all()
 
-@register.filter(name='in_any_group')
+
+@register.filter(name="in_any_group")
 def in_any_group(user, group_names):
     """
     Проверяет, является ли пользователь членом хотя бы одной из указанных групп.
@@ -35,3 +38,8 @@ def in_any_group(user, group_names):
         except Group.DoesNotExist:
             pass  # Игнорируем несуществующие группы
     return False
+
+
+@register.filter(name='has_perm')
+def has_perm(user, perm_name):
+    return user.has_perm(perm_name)
